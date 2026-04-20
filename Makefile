@@ -1,4 +1,5 @@
-COMPOSE_FILE = docker-compose.document.yaml
+COMPOSE_FILE = docker-compose.replicaset.yaml
+COMPOSE_SINGLE_FILE = docker-compose.document.yaml
 COMPOSE_TEST_FILE = docker-compose.document.test.yaml
 ENV_FILE = env-example-document
 
@@ -36,7 +37,7 @@ sh:
 	docker compose -f $(COMPOSE_FILE) run --rm api sh
 
 mongo.sh:
-	docker exec -it $$(docker compose -f $(COMPOSE_FILE) ps -q mongo) mongosh -u root -p secret
+	docker exec -it $$(docker compose -f $(COMPOSE_FILE) ps -q mongo1) mongosh
 
 db.seed:
 	npm run seed:run:document
@@ -45,7 +46,10 @@ db.seed.docker:
 	docker compose -f $(COMPOSE_FILE) run --rm api npm run seed:run:document
 
 db.indexes:
-	docker exec -it $$(docker compose -f $(COMPOSE_FILE) ps -q mongo) mongosh -u root -p secret --eval "use api" --eval "db.getCollectionNames().forEach(c => { print('--- ' + c + ' ---'); printjson(db[c].getIndexes()) })"
+	docker exec -it $$(docker compose -f $(COMPOSE_FILE) ps -q mongo1) mongosh --eval "use api" --eval "db.getCollectionNames().forEach(c => { print('--- ' + c + ' ---'); printjson(db[c].getIndexes()) })"
+
+rs.status:
+	docker exec -it $$(docker compose -f $(COMPOSE_FILE) ps -q mongo1) mongosh --eval "rs.status()"
 
 test:
 	npm run test
@@ -99,5 +103,5 @@ swagger:
 	@echo "Swagger UI: http://localhost:$${APP_PORT:-3000}/docs"
 
 .PHONY: env.setup install build start start.detach stop restart dev dev.swc debug sh mongo.sh \
-	db.seed db.seed.docker db.indexes test test.watch test.cov test.e2e test.e2e.docker \
+	db.seed db.seed.docker db.indexes rs.status test test.watch test.cov test.e2e test.e2e.docker \
 	lint lint.fix format generate.resource seed.create logs logs.api logs.mongo ps clean swagger
