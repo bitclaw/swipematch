@@ -90,14 +90,26 @@ describe('AnalyticsService (integration)', () => {
 
       // B gets 3 likes, A gets 1 like
       await interactionModel.create([
-        { fromUser: userA._id.toString(), toUser: userB._id.toString(), action: 'like' },
-        { fromUser: userC._id.toString(), toUser: userB._id.toString(), action: 'like' },
+        {
+          fromUser: userA._id.toString(),
+          toUser: userB._id.toString(),
+          action: 'like',
+        },
+        {
+          fromUser: userC._id.toString(),
+          toUser: userB._id.toString(),
+          action: 'like',
+        },
         {
           fromUser: new Types.ObjectId().toString(),
           toUser: userB._id.toString(),
           action: 'superlike',
         },
-        { fromUser: userB._id.toString(), toUser: userA._id.toString(), action: 'like' },
+        {
+          fromUser: userB._id.toString(),
+          toUser: userA._id.toString(),
+          action: 'like',
+        },
       ]);
 
       const results = await service.getPopularProfiles(7);
@@ -149,10 +161,26 @@ describe('AnalyticsService (integration)', () => {
       const userC = new Types.ObjectId();
 
       await interactionModel.create([
-        { fromUser: userA.toString(), toUser: new Types.ObjectId().toString(), action: 'like' },
-        { fromUser: userA.toString(), toUser: new Types.ObjectId().toString(), action: 'pass' },
-        { fromUser: userB.toString(), toUser: new Types.ObjectId().toString(), action: 'like' },
-        { fromUser: userC.toString(), toUser: new Types.ObjectId().toString(), action: 'superlike' },
+        {
+          fromUser: userA.toString(),
+          toUser: new Types.ObjectId().toString(),
+          action: 'like',
+        },
+        {
+          fromUser: userA.toString(),
+          toUser: new Types.ObjectId().toString(),
+          action: 'pass',
+        },
+        {
+          fromUser: userB.toString(),
+          toUser: new Types.ObjectId().toString(),
+          action: 'like',
+        },
+        {
+          fromUser: userC.toString(),
+          toUser: new Types.ObjectId().toString(),
+          action: 'superlike',
+        },
       ]);
 
       const results = await service.getEngagementMetrics(7);
@@ -174,9 +202,21 @@ describe('AnalyticsService (integration)', () => {
 
       // User A: 3 swipes (2 likes, 1 pass)
       await interactionModel.create([
-        { fromUser: userA.toString(), toUser: userB.toString(), action: 'like' },
-        { fromUser: userA.toString(), toUser: userC.toString(), action: 'like' },
-        { fromUser: userA.toString(), toUser: userD.toString(), action: 'pass' },
+        {
+          fromUser: userA.toString(),
+          toUser: userB.toString(),
+          action: 'like',
+        },
+        {
+          fromUser: userA.toString(),
+          toUser: userC.toString(),
+          action: 'like',
+        },
+        {
+          fromUser: userA.toString(),
+          toUser: userD.toString(),
+          action: 'pass',
+        },
       ]);
 
       // Match with userB

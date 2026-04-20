@@ -32,6 +32,8 @@ import { MatchesModule } from './matches/matches.module';
 import { MessagesModule } from './messages/messages.module';
 import { DiscoveryModule } from './discovery/discovery.module';
 import { AnalyticsModule } from './analytics/analytics.module';
+import { RedisCacheModule } from './common/cache/cache.module';
+import cacheConfig from './config/cache.config';
 
 // <database-block>
 const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
@@ -60,6 +62,7 @@ const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
         facebookConfig,
         googleConfig,
         appleConfig,
+        cacheConfig,
       ],
       envFilePath: ['.env'],
     }),
@@ -97,6 +100,7 @@ const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
     MailModule,
     MailerModule,
     HomeModule,
+    RedisCacheModule,
     InteractionsModule,
     MatchesModule,
     MessagesModule,

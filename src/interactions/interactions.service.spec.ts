@@ -1,5 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ConflictException, UnprocessableEntityException } from '@nestjs/common';
+import {
+  ConflictException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { InteractionsService } from './interactions.service';
 import { InteractionRepository } from './infrastructure/persistence/interaction.repository';
 import { MatchesService } from '../matches/matches.service';

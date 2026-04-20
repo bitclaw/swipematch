@@ -4,6 +4,7 @@ import {
 } from '@nestjs/common';
 
 import { UsersController } from './users.controller';
+import { ProfilePhotosController } from './profile-photos.controller';
 
 import { UsersService } from './users.service';
 import { DocumentUserPersistenceModule } from './infrastructure/persistence/document/document-persistence.module';
@@ -25,7 +26,7 @@ const infrastructurePersistenceModule = (databaseConfig() as DatabaseConfig)
     infrastructurePersistenceModule,
     FilesModule,
   ],
-  controllers: [UsersController],
+  controllers: [UsersController, ProfilePhotosController],
   providers: [UsersService],
   exports: [UsersService, infrastructurePersistenceModule],
 })

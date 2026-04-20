@@ -1,4 +1,5 @@
 import { AppConfig } from './app-config.type';
+import { CacheConfig } from './cache-config.type';
 import { AppleConfig } from '../auth-apple/config/apple-config.type';
 import { AuthConfig } from '../auth/config/auth-config.type';
 import { DatabaseConfig } from '../database/config/database-config.type';
@@ -11,6 +12,7 @@ export type AllConfigType = {
   app: AppConfig;
   apple: AppleConfig;
   auth: AuthConfig;
+  cache: CacheConfig;
   database: DatabaseConfig;
   facebook: FacebookConfig;
   file: FileConfig;

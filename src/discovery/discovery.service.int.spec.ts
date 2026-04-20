@@ -98,10 +98,11 @@ describe('DiscoveryService (integration)', () => {
       maxDistanceKm: 50,
     });
 
-    const results = await service.findNearbyUsers(
-      searcher._id.toString(),
-      { lat: 0, lng: 0, maxDistanceKm: 50 },
-    );
+    const results = await service.findNearbyUsers(searcher._id.toString(), {
+      lat: 0,
+      lng: 0,
+      maxDistanceKm: 50,
+    });
 
     expect(results).toHaveLength(1);
     expect(results[0].firstName).toBe('Nearby');
@@ -157,10 +158,11 @@ describe('DiscoveryService (integration)', () => {
       action: 'like',
     });
 
-    const results = await service.findNearbyUsers(
-      searcher._id.toString(),
-      { lat: 0, lng: 0, maxDistanceKm: 100 },
-    );
+    const results = await service.findNearbyUsers(searcher._id.toString(), {
+      lat: 0,
+      lng: 0,
+      maxDistanceKm: 100,
+    });
 
     expect(results).toHaveLength(1);
     expect(results[0]._id.toString()).toBe(unswiped._id.toString());
@@ -209,10 +211,11 @@ describe('DiscoveryService (integration)', () => {
       maxDistanceKm: 50,
     });
 
-    const results = await service.findNearbyUsers(
-      searcher._id.toString(),
-      { lat: 0, lng: 0, maxDistanceKm: 100 },
-    );
+    const results = await service.findNearbyUsers(searcher._id.toString(), {
+      lat: 0,
+      lng: 0,
+      maxDistanceKm: 100,
+    });
 
     expect(results).toHaveLength(1);
     expect(results[0].gender).toBe('female');
@@ -263,10 +266,11 @@ describe('DiscoveryService (integration)', () => {
       maxDistanceKm: 50,
     });
 
-    const results = await service.findNearbyUsers(
-      searcher._id.toString(),
-      { lat: 0, lng: 0, maxDistanceKm: 100 },
-    );
+    const results = await service.findNearbyUsers(searcher._id.toString(), {
+      lat: 0,
+      lng: 0,
+      maxDistanceKm: 100,
+    });
 
     expect(results).toHaveLength(1);
     expect(results[0].firstName).toBe('InRange');
