@@ -16,6 +16,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { RateLimitGuard } from '../common/guards/rate-limit.guard';
 import { InteractionsService } from './interactions.service';
 import { CreateInteractionDto } from './dto/create-interaction.dto';
 import { QueryInteractionDto } from './dto/query-interaction.dto';
@@ -32,6 +33,7 @@ export class InteractionsController {
   constructor(private readonly interactionsService: InteractionsService) {}
 
   @ApiCreatedResponse({ type: Interaction })
+  @UseGuards(new RateLimitGuard(100, 3600000))
   @Post()
   @HttpCode(HttpStatus.CREATED)
   create(
