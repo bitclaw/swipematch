@@ -1,6 +1,8 @@
 # SwipeMatch API
 
-A dating app backend built with **NestJS**, **MongoDB**, **TypeScript**, and **Docker**. This project demonstrates production-grade backend patterns including MongoDB sharding, indexing strategies, aggregation pipelines, and replica set configuration — all in the context of a real-world dating application.
+A dating app backend built with **NestJS**, **MongoDB**, **TypeScript**, and **Docker**. This project demonstrates
+production-grade backend patterns including MongoDB sharding, indexing strategies, aggregation pipelines, and replica
+set configuration, all in the context of a real-world dating application.
 
 Built on top of the [NestJS Boilerplate](https://github.com/brocoders/nestjs-boilerplate) by Brocoders.
 
