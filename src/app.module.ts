@@ -27,6 +27,11 @@ import { MailerModule } from './mailer/mailer.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MongooseConfigService } from './database/mongoose-config.service';
 import { DatabaseConfig } from './database/config/database-config.type';
+import { InteractionsModule } from './interactions/interactions.module';
+import { MatchesModule } from './matches/matches.module';
+import { MessagesModule } from './messages/messages.module';
+import { DiscoveryModule } from './discovery/discovery.module';
+import { AnalyticsModule } from './analytics/analytics.module';
 
 // <database-block>
 const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
@@ -92,6 +97,11 @@ const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
     MailModule,
     MailerModule,
     HomeModule,
+    InteractionsModule,
+    MatchesModule,
+    MessagesModule,
+    DiscoveryModule,
+    AnalyticsModule,
   ],
 })
 export class AppModule {}
