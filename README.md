@@ -1,73 +1,424 @@
-# NestJS REST API boilerplate 🇺🇦
+# SwipeMatch API
 
-[![image](https://github.com/brocoders/nestjs-boilerplate/assets/72293912/197da43e-02f4-4895-8d3e-b7a42a591c26)](https://github.com/new?template_name=nestjs-boilerplate&template_owner=brocoders)
+A dating app backend built with **NestJS**, **MongoDB**, **TypeScript**, and **Docker**. This project demonstrates production-grade backend patterns including MongoDB sharding, indexing strategies, aggregation pipelines, and replica set configuration — all in the context of a real-world dating application.
 
-![github action status](https://github.com/brocoders/nestjs-boilerplate/actions/workflows/docker-e2e.yml/badge.svg)
-[![renovate](https://img.shields.io/badge/renovate-enabled-%231A1F6C?logo=renovatebot)](https://app.renovatebot.com/dashboard)
-[![Static Badge](https://img.shields.io/badge/supported_by-brocoders-d91965?logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB3aWR0aD0iMTMwIiBoZWlnaHQ9IjE4NyIgdmlld0JveD0iMCAwIDEzMCAxODciIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI%2BCjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMF83NzExXzQ4OTEpIj4KPHBhdGggZD0iTTc1Ljk5NjcgNDUuNzUwNkM2NS4xMDg5IDQ2Ljg2MSA1Ny45MjMgNTguNDA5NyA2Mi4yNzgxIDY4Ljg0OEwxMDguNDQyIDE4N0w3My42MDEzIDE1NS4wMTlIMzQuODQwOUMyMC42ODY4IDE1NS4wMTkgOS4zNjM0OSAxNDMuNDcgOS4zNjM0OSAxMjkuMDM0Vjk0LjYxMDVDOS4zNjM0OSA5Mi4xNjc1IDguNDkyNDYgODkuNzI0NSA2Ljc1MDQyIDg3Ljk0NzdMMCA4MS4wNjNMNi43NTA0MiA3NC4xNzgxQzguNDkyNDYgNzIuNDAxNCA5LjM2MzQ5IDY5Ljk1ODQgOS4zNjM0OSA2Ny41MTU0VjMxLjA5MjZDOS4zNjM0OSAxMy43Njk2IDIzLjA4MjEgMCAzOS44NDkyIDBINTguMTQwN0w3NS45OTY3IDQ1Ljc1MDZaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTI1LjY0NiAxMTIuMzc4Vjk0LjgzMjdDMTI1LjY0NiA5My43MjIyIDEyNi4wODEgOTIuNjExOCAxMjYuOTUyIDkxLjcyMzRMMTMwLjAwMSA4OC4zOTIxTDEyNi45NTIgODUuMDYwN0MxMjYuMDgxIDg0LjE3MjQgMTI1LjY0NiA4My4wNjE5IDEyNS42NDYgODEuOTUxNFY2OS43MzY1QzEyNS42NDYgNTYuNDExMSAxMTQuOTc2IDQ1Ljc1MDcgMTAyLjEyOCA0NS43NTA3SDc1Ljk5NzNMMTA1LjYxMiAxMzAuODExQzEwNS42MTIgMTMwLjgxMSAxMTAuNjIgMTMwLjgxMSAxMTAuODM4IDEzMC44MTFDMTE5LjExMyAxMjkuMDM1IDEyNS42NDYgMTIxLjQ4NCAxMjUuNjQ2IDExMi4zNzhaIiBmaWxsPSJ3aGl0ZSIvPgo8L2c%2BCjxkZWZzPgo8Y2xpcFBhdGggaWQ9ImNsaXAwXzc3MTFfNDg5MSI%2BCjxyZWN0IHdpZHRoPSIxMzAiIGhlaWdodD0iMTg3IiBmaWxsPSJ3aGl0ZSIvPgo8L2NsaXBQYXRoPgo8L2RlZnM%2BCjwvc3ZnPgo%3D&logoColor=d91965)](https://brocoders.com/)
-[![Discord Badge](https://img.shields.io/badge/discord-NodeJS_boilerplate-d91965?style=flat&labelColor=5866f2&logo=discord&logoColor=white&link=https://discord.com/channels/520622812742811698/1197293125434093701)](https://discord.com/channels/520622812742811698/1197293125434093701)
+Built on top of the [NestJS Boilerplate](https://github.com/brocoders/nestjs-boilerplate) by Brocoders.
 
-<br />
-<p align="center"><a href="https://discord.com/channels/520622812742811698/1197293125434093701"><img src="https://github.com/brocoders/nestjs-boilerplate/assets/72293912/c9d5fbf0-b56d-46b5-bb30-f96f44764bae" width="300"/></a></p>
-<br />
+## Table of Contents
 
-## Description <!-- omit in toc -->
+- [Tech Stack](#tech-stack)
+- [Architecture Overview](#architecture-overview)
+- [Backend Features](#backend-features)
+- [MongoDB Deep Dive](#mongodb-deep-dive)
+- [API Endpoints](#api-endpoints)
+- [Getting Started](#getting-started)
+- [Makefile Commands](#makefile-commands)
+- [Testing Strategy](#testing-strategy)
+- [AWS Integration Points](#aws-integration-points)
+- [Interview Reference](#interview-reference)
 
-NestJS REST API boilerplate for a typical project
+## Tech Stack
 
-[Full documentation here](/docs/readme.md)
+| Layer | Technology |
+|-------|-----------|
+| Framework | NestJS 11 |
+| Language | TypeScript 5.9 |
+| Database | MongoDB 8.2 (Mongoose ODM) |
+| Caching | Redis 7 |
+| Auth | JWT (access + refresh tokens), OAuth (Google, Facebook, Apple) |
+| File Storage | S3 / Local |
+| Containerization | Docker + Docker Compose |
+| Testing | Jest, Supertest, mongodb-memory-server |
+| Documentation | Swagger / OpenAPI |
 
-Demo: <https://nestjs-boilerplate-test.herokuapp.com/docs>
+## Architecture Overview
 
-A fully compatible frontend boilerplate: <https://github.com/brocoders/extensive-react-boilerplate>
+The project follows a **layered architecture** with clear separation of concerns:
 
-Belongs to the [bc boilerplates](https://bcboilerplates.com/) ecosystem
+```
+src/
+├── auth/                    # JWT authentication, OAuth providers
+├── users/                   # User profiles, preferences, location
+├── interactions/            # Swipe actions (like, pass, superlike)
+├── matches/                 # Mutual match management
+├── messages/                # Chat between matched users
+├── discovery/               # Nearby user search (geospatial)
+├── analytics/               # Aggregation-based metrics
+├── database/                # MongoDB config, seeds, index scripts
+├── files/                   # S3/local file upload handling
+├── common/                  # Shared guards, pipes, filters, interceptors
+└── config/                  # Environment configuration
+```
 
-<https://github.com/user-attachments/assets/a66f114a-c714-4036-8eeb-20cbf04ae985>
+Each domain module follows the pattern:
 
-## Table of Contents <!-- omit in toc -->
+```
+module/
+├── domain/                  # Plain domain entity (framework-agnostic)
+├── infrastructure/
+│   └── persistence/
+│       └── document/
+│           ├── entities/    # Mongoose schema definition
+│           ├── mappers/     # Domain <-> Persistence mapping
+│           └── repositories/# Data access layer
+├── dto/                     # Request/response validation (class-validator)
+├── *.controller.ts          # REST endpoint definitions
+├── *.service.ts             # Business logic
+└── *.module.ts              # NestJS dependency wiring
+```
 
-- [Features](#features)
-- [Contributors](#contributors)
-- [Support](#support)
+## Backend Features
 
-## Features
+### User Profiles
+- CRUD operations for dating profiles
+- GeoJSON location storage for proximity searches
+- Preference management (gender, age range, max distance)
+- Profile photo metadata (S3 integration)
+- Text-searchable bio and interests
 
-- [x] Database. Support [TypeORM](https://www.npmjs.com/package/typeorm) and [Mongoose](https://www.npmjs.com/package/mongoose).
-- [x] Seeding.
-- [x] Config Service ([@nestjs/config](https://www.npmjs.com/package/@nestjs/config)).
-- [x] Mailing ([nodemailer](https://www.npmjs.com/package/nodemailer)).
-- [x] Sign in and sign up via email.
-- [x] Social sign in (Apple, Facebook, Google).
-- [x] Admin and User roles.
-- [x] Internationalization/Translations (I18N) ([nestjs-i18n](https://www.npmjs.com/package/nestjs-i18n)).
-- [x] File uploads. Support local and Amazon S3 drivers.
-- [x] Swagger.
-- [x] E2E and units tests.
-- [x] Docker.
-- [x] CI (Github Actions).
+### Discovery Engine
+- **Geospatial search** using MongoDB `$geoNear` aggregation
+- Filter by gender preference, age range, and distance
+- Excludes previously swiped users via `$lookup`
+- Returns results sorted by proximity
+- Paginated response with distance metadata
 
-## Contributors
+### Interactions (Swipe System)
+- Record like, pass, and superlike actions
+- **Mutual like detection** — automatically creates a match when both users like each other
+- Duplicate swipe prevention via unique compound index
+- View received likes (who liked me)
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tbody>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Shchepotin"><img src="https://avatars.githubusercontent.com/u/6001723?v=4?s=100" width="100px;" alt="Vladyslav Shchepotin"/><br /><sub><b>Vladyslav Shchepotin</b></sub></a><br /><a href="#maintenance-Shchepotin" title="Maintenance">🚧</a> <a href="#doc-Shchepotin" title="Documentation">📖</a> <a href="#code-Shchepotin" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/SergeiLomako"><img src="https://avatars.githubusercontent.com/u/31205374?v=4?s=100" width="100px;" alt="SergeiLomako"/><br /><sub><b>SergeiLomako</b></sub></a><br /><a href="#code-SergeiLomako" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ElenVlass"><img src="https://avatars.githubusercontent.com/u/72293912?v=4?s=100" width="100px;" alt="Elena Vlasenko"/><br /><sub><b>Elena Vlasenko</b></sub></a><br /><a href="#doc-ElenVlass" title="Documentation">📖</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="http://brocoders.com"><img src="https://avatars.githubusercontent.com/u/226194?v=4?s=100" width="100px;" alt="Rodion"/><br /><sub><b>Rodion</b></sub></a><br /><a href="#business-sars" title="Business development">💼</a></td>
-    </tr>
-  </tbody>
-</table>
+### Matches
+- Automatic match creation on mutual likes
+- List active matches sorted by last message time
+- Unmatch functionality (soft delete)
+- Cross-module event: interaction triggers match check
 
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
+### Messaging
+- Send messages within active matches only
+- `MatchParticipantGuard` — ensures sender belongs to the match
+- Paginated chat history per match
+- Read receipts (mark as read with timestamp)
+- Message types: text, image, gif
 
-<!-- ALL-CONTRIBUTORS-LIST:END -->
+### Analytics Dashboard
+- **Popular profiles** — top users by likes received in a time window
+- **Engagement metrics** — DAU, swipes per user, like rate by day
+- **Match conversion funnel** — swipes → likes → matches → conversations (using `$facet`)
+- All computed via MongoDB aggregation pipelines (no application-level processing)
 
-## Support
+### NestJS Patterns Demonstrated
+- **Guards** — `MatchParticipantGuard` (authorization), `RateLimitGuard` (abuse prevention)
+- **Pipes** — `CoordinatesValidationPipe` (lat/lng validation and transformation)
+- **Filters** — `MongoDBExceptionFilter` (duplicate key → 409, validation → 422)
+- **Interceptors** — `LoggingInterceptor` (structured JSON, CloudWatch-compatible)
+- **DTOs** — `class-validator` decorators (`@IsMongoId`, `@IsEnum`, `@IsNumber`)
+- **Dependency Injection** — cross-module service injection (interactions → matches)
 
-If you seek consulting, support, or wish to collaborate, please contact us via [boilerplates@brocoders.com](mailto:boilerplates@brocoders.com). For any inquiries regarding boilerplates, feel free to ask on [GitHub Discussions](https://github.com/brocoders/nestjs-boilerplate/discussions) or [Discord](https://discord.com/channels/520622812742811698/1197293125434093701).
+## MongoDB Deep Dive
+
+### Schema Design Decisions
+
+| Collection | Strategy | Rationale |
+|-----------|----------|-----------|
+| **users** | Preferences embedded in document | Always accessed together with profile; avoids joins |
+| **interactions** | Lean documents, references users | Write-heavy (every swipe); minimal fields for performance |
+| **matches** | Array of 2 user ObjectIds | Small collection (only mutual likes); simple lookup |
+| **messages** | References match by ObjectId | Unbounded growth per match; separate collection prevents document size limits |
+| **sessions** | TTL-indexed documents | Auto-expire without cron jobs |
+
+### Index Strategy
+
+```javascript
+// --- Users ---
+{ location: "2dsphere" }                          // Geospatial: nearby user discovery
+{ email: 1 }                        /* unique */   // Login lookup
+{ gender: 1, dateOfBirth: 1 }                      // Compound: preference filtering (equality first, then range)
+{ bio: "text", interests: "text" }                 // Full-text: profile search
+{ profileScore: -1 }                               // Sort: popularity ranking
+
+// --- Interactions ---
+{ fromUser: 1, toUser: 1 }         /* unique */   // Prevent duplicate swipes at DB level
+{ toUser: 1, action: 1 }                           // "Who liked me" queries
+{ createdAt: 1 }    /* TTL: 90 days */             // Auto-cleanup of old passes
+
+// --- Matches ---
+{ users: 1 }                                       // Find matches for a user
+{ matchedAt: -1 }                                  // Sort by recency
+
+// --- Messages ---
+{ matchId: 1, createdAt: 1 }                       // Chat history pagination (covers filter + sort)
+```
+
+**Index design principles applied:**
+- Compound indexes follow **equality → range → sort** ordering
+- Unique indexes enforce business rules at the database level (no duplicate swipes)
+- TTL indexes handle data lifecycle without application cron jobs
+- Text indexes span multiple fields for unified search
+- Every index is justified by a specific query pattern — no speculative indexes
+
+### Aggregation Pipelines
+
+**1. Discovery — Find Nearby Users**
+```
+$geoNear (2dsphere) → $addFields (calculate age) → $match (age filter)
+  → $lookup (exclude swiped) → $project → $sort (distance) → $limit
+```
+
+**2. Popular Profiles**
+```
+$match (likes in timeframe) → $group (count by toUser)
+  → $sort (desc) → $limit → $lookup (user data) → $unwind → $project
+```
+
+**3. Match Conversion Funnel** (uses `$facet` for single-pass multi-metric)
+```
+$facet {
+  totalSwipes: [$count],
+  likes: [$match + $count],
+  passes: [$match + $count],
+  matches: [$match + $lookup + $count],
+  conversations: [$match + $lookup + $lookup + $count]
+}
+```
+
+**4. Engagement Metrics**
+```
+$match (timeframe) → $group (by date, $addToSet for DAU)
+  → $project (compute swipes/user, like rate) → $sort (date)
+```
+
+### Replication Set Configuration
+
+The Docker Compose setup runs a **3-node MongoDB replica set**:
+
+| Node | Port | Role |
+|------|------|------|
+| mongo1 | 27017 | Primary (priority: 2) |
+| mongo2 | 27018 | Secondary |
+| mongo3 | 27019 | Secondary |
+
+**Configuration in application code:**
+- `readPreference: 'secondaryPreferred'` — offloads reads from primary for a read-heavy dating app
+- `writeConcern: { w: 'majority' }` — ensures data durability across nodes before acknowledging writes
+- Automatic failover: if primary goes down, secondaries elect a new primary (~12 seconds)
+
+### Sharding Strategy
+
+Sharding configuration scripts with rationale for each collection:
+
+| Collection | Shard Key | Why |
+|-----------|----------|-----|
+| **users** | `{ location: "hashed" }` | Aligns with geo query patterns; hashed for even distribution |
+| **interactions** | `{ fromUser: "hashed" }` | "My swipes" queries target single shard; high cardinality |
+| **messages** | `{ matchId: "hashed" }` | Conversation data locality — all messages for a chat on same shard |
+| **matches** | `{ _id: "hashed" }` | Small collection; even write distribution |
+
+**Anti-patterns avoided:**
+- `gender` as shard key (cardinality of 2-3 → hot shards)
+- `createdAt` as shard key (monotonically increasing → all writes to latest shard)
+- `status` as shard key (low cardinality)
+
+### When to Use MongoDB vs PostgreSQL
+
+**Use MongoDB when:**
+- Schema evolves frequently (different profile types, A/B testing new fields)
+- Horizontal write scaling is needed (millions of concurrent swipes)
+- Embedded documents reduce JOINs (profile + preferences in one read)
+- Real-time analytics via aggregation pipelines
+- Geospatial queries are a primary access pattern
+
+**Use PostgreSQL when:**
+- Complex multi-table transactions with referential integrity (payments, subscriptions)
+- Advanced geospatial analysis (PostGIS is more mature)
+- BI tool integration and complex analytical queries
+- Strict schema enforcement is a priority
+
+**Hybrid approach (common in production dating apps):**
+- PostgreSQL: users (system of record), payments, subscriptions
+- MongoDB: sessions, messages, interactions, activity feeds, recommendations
+
+## API Endpoints
+
+### Auth (from boilerplate)
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/v1/auth/email/register` | Register with email |
+| POST | `/api/v1/auth/email/login` | Login, receive JWT |
+| POST | `/api/v1/auth/refresh` | Refresh access token |
+| POST | `/api/v1/auth/logout` | Invalidate session |
+
+### User Profiles
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/v1/users/profile/:id` | View a user's profile |
+| PATCH | `/api/v1/users/profile` | Update own profile (bio, location, preferences) |
+
+### Discovery
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/v1/discovery` | Find nearby users matching preferences |
+
+### Interactions
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/v1/interactions` | Record a swipe (like/pass/superlike) |
+| GET | `/api/v1/interactions/likes-received` | Users who liked me |
+
+### Matches
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/v1/matches` | List my matches (paginated) |
+| DELETE | `/api/v1/matches/:id` | Unmatch |
+
+### Messages
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/v1/messages` | Send a message |
+| GET | `/api/v1/messages/:matchId` | Chat history (paginated) |
+| PATCH | `/api/v1/messages/:id/read` | Mark message as read |
+
+### Analytics
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/v1/analytics/popular-profiles` | Top profiles by likes received |
+| GET | `/api/v1/analytics/engagement` | DAU, swipes/user, like rate |
+| GET | `/api/v1/analytics/match-rate` | Conversion funnel |
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js >= 16
+- Docker and Docker Compose
+- npm >= 8
+
+### Quick Start
+
+```bash
+# 1. Clone and enter the project
+git clone https://github.com/bitclaw/swipematch.git
+cd swipematch
+
+# 2. Set up environment
+make env.setup
+
+# 3. Start MongoDB, Mongo Express, and API via Docker
+make start
+
+# 4. (Alternative) Run locally with Docker only for MongoDB
+make start.detach       # Start MongoDB in background
+make install            # Install npm dependencies
+make db.seed            # Seed initial data
+make dev                # Start NestJS in watch mode
+
+# 5. Access the app
+# API:           http://localhost:3000
+# Swagger docs:  http://localhost:3000/docs
+# Mongo Express: http://localhost:8081
+```
+
+## Makefile Commands
+
+| Command | Description |
+|---------|-------------|
+| `make env.setup` | Copy env-example-document to .env |
+| `make install` | Install npm dependencies |
+| `make build` | Build Docker images |
+| `make start` | Start all services (attached) |
+| `make start.detach` | Start all services (background) |
+| `make stop` | Stop all services |
+| `make restart` | Restart all services |
+| `make dev` | Start NestJS in watch mode (local) |
+| `make dev.swc` | Start NestJS with SWC compiler (faster) |
+| `make debug` | Start NestJS in debug mode |
+| `make sh` | Shell into API container |
+| `make mongo.sh` | Open MongoDB shell |
+| `make db.seed` | Run database seeds (local) |
+| `make db.seed.docker` | Run database seeds (Docker) |
+| `make db.indexes` | List all indexes in the database |
+| `make test` | Run unit tests |
+| `make test.watch` | Run tests in watch mode |
+| `make test.cov` | Run tests with coverage |
+| `make test.e2e` | Run E2E tests (local) |
+| `make test.e2e.docker` | Run E2E tests in Docker |
+| `make lint` | Run ESLint |
+| `make lint.fix` | Run ESLint with auto-fix |
+| `make format` | Run Prettier |
+| `make generate.resource` | Generate a new NestJS resource |
+| `make logs` | Tail all service logs |
+| `make logs.api` | Tail API logs |
+| `make logs.mongo` | Tail MongoDB logs |
+| `make ps` | List running containers |
+| `make clean` | Stop services and remove volumes |
+
+## Testing Strategy
+
+### Unit Tests
+- Service layer tests with mocked repositories
+- Controller tests for request validation and guard behavior
+- Custom filter/guard/pipe tests
+- Run with: `make test`
+
+### Integration Tests
+- Aggregation pipeline correctness with `mongodb-memory-server` (replica set mode)
+- Geospatial query accuracy with known coordinate datasets
+- Run with: `make test.e2e`
+
+### Key Test Scenarios
+- Mutual like detection creates a match
+- Self-interaction is rejected
+- Duplicate swipe returns appropriate error
+- `$geoNear` returns users within specified radius, sorted by distance
+- `$geoNear` excludes already-swiped users
+- Analytics pipelines produce correct metrics from seeded data
+- `MatchParticipantGuard` blocks messages from non-participants
+- Rate limit guard throttles excessive swipes
+
+## AWS Integration Points
+
+| Service | Use Case | Implementation |
+|---------|----------|---------------|
+| **S3** | Profile photo storage | Boilerplate's file module with `profiles/{userId}/{uuid}.jpg` key pattern |
+| **ElastiCache (Redis)** | Cache discovery results (5 min TTL), match lists (1 min TTL) | `@nestjs/cache-manager` with Redis store |
+| **CloudWatch** | Structured JSON logging | `LoggingInterceptor` outputs request timing, method, status |
+| **EC2/ECS** | Container deployment | Docker Compose translates to ECS task definitions |
+| **Lambda** | Photo processing (resize, moderation) | Triggered by S3 upload events |
+
+## Interview Reference
+
+This project was built to demonstrate practical knowledge of the following topics in a real-world context:
+
+### MongoDB
+- **Schema design** — embedding vs referencing, document modeling for different access patterns
+- **Indexes** — single field, compound, 2dsphere, text, TTL, unique; index selection trade-offs
+- **Aggregation** — `$geoNear`, `$lookup`, `$group`, `$facet`, `$addFields`, pipeline optimization
+- **Replication** — replica sets, read preferences, write concerns, automatic failover
+- **Sharding** — shard key selection, hashed vs range, cardinality, query isolation
+- **When to use / not use** — MongoDB vs PostgreSQL trade-offs, hybrid architectures
+
+### NestJS / Node.js
+- Modular architecture with dependency injection
+- Guards, pipes, filters, interceptors
+- DTOs with class-validator
+- Cross-module service injection
+- Layered persistence (domain entity → schema → mapper → repository)
+
+### Docker
+- Multi-service Docker Compose (API, MongoDB replica set, Redis, mail)
+- Development workflow with hot reload
+- E2E testing in containers
+
+### Testing
+- Unit tests with Jest and `@nestjs/testing`
+- Integration tests with real MongoDB (memory server)
+- Testing aggregation pipeline correctness
+
+## License
+
+MIT
+
+## Credits
+
+Built on top of [NestJS Boilerplate](https://github.com/brocoders/nestjs-boilerplate) by [Brocoders](https://brocoders.com/).
