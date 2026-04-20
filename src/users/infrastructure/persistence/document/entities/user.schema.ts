@@ -15,6 +15,7 @@ export type UserSchemaDocument = HydratedDocument<UserSchemaClass>;
     virtuals: true,
     getters: true,
   },
+  collection: 'users',
 })
 export class UserSchemaClass extends EntityDocumentHelper {
   @Prop({

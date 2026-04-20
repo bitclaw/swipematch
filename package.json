@@ -119,6 +119,7 @@
     "hygen": "6.2.11",
     "is-ci": "4.1.0",
     "jest": "30.3.0",
+    "mongodb-memory-server": "^11.0.1",
     "prettier": "3.8.1",
     "prompts": "2.4.2",
     "release-it": "19.2.4",
