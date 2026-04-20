@@ -69,6 +69,45 @@ export class User {
   })
   status?: Status;
 
+  @ApiProperty({ type: String, example: 'Love hiking and coffee' })
+  bio?: string;
+
+  @ApiProperty({
+    type: Object,
+    example: { type: 'Point', coordinates: [-122.4194, 37.7749] },
+  })
+  location?: { type: string; coordinates: [number, number] };
+
+  @ApiProperty({ type: Date, example: '1995-06-15' })
+  dateOfBirth?: Date;
+
+  @ApiProperty({
+    type: String,
+    enum: ['male', 'female', 'non-binary', 'other'],
+  })
+  gender?: string;
+
+  @ApiProperty({ type: [String], example: ['female', 'non-binary'] })
+  genderPreference?: string[];
+
+  @ApiProperty({ type: Number, example: 25 })
+  ageMin?: number;
+
+  @ApiProperty({ type: Number, example: 35 })
+  ageMax?: number;
+
+  @ApiProperty({ type: Number, example: 50 })
+  maxDistanceKm?: number;
+
+  @ApiProperty({ type: [String], example: ['hiking', 'coffee', 'travel'] })
+  interests?: string[];
+
+  @ApiProperty({ type: [String] })
+  photoUrls?: string[];
+
+  @ApiProperty({ type: Number, example: 85 })
+  profileScore?: number;
+
   @ApiProperty()
   createdAt: Date;
 

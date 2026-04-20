@@ -62,6 +62,49 @@ export class UserSchemaClass extends EntityDocumentHelper {
   })
   status?: StatusSchema;
 
+  @Prop({ type: String })
+  bio?: string;
+
+  @Prop({
+    type: {
+      type: String,
+      enum: ['Point'],
+      default: 'Point',
+    },
+    coordinates: {
+      type: [Number],
+      default: [0, 0],
+    },
+  })
+  location?: { type: string; coordinates: [number, number] };
+
+  @Prop({ type: Date })
+  dateOfBirth?: Date;
+
+  @Prop({ type: String, enum: ['male', 'female', 'non-binary', 'other'] })
+  gender?: string;
+
+  @Prop({ type: [String], default: [] })
+  genderPreference: string[];
+
+  @Prop({ type: Number, min: 18, max: 100, default: 18 })
+  ageMin: number;
+
+  @Prop({ type: Number, min: 18, max: 100, default: 99 })
+  ageMax: number;
+
+  @Prop({ type: Number, default: 50, max: 200 })
+  maxDistanceKm: number;
+
+  @Prop({ type: [String], default: [] })
+  interests: string[];
+
+  @Prop({ type: [String], default: [] })
+  photoUrls: string[];
+
+  @Prop({ type: Number, default: 0 })
+  profileScore: number;
+
   @Prop({ default: now })
   createdAt: Date;
 
@@ -75,3 +118,7 @@ export class UserSchemaClass extends EntityDocumentHelper {
 export const UserSchema = SchemaFactory.createForClass(UserSchemaClass);
 
 UserSchema.index({ 'role._id': 1 });
+UserSchema.index({ location: '2dsphere' });
+UserSchema.index({ gender: 1, dateOfBirth: 1 });
+UserSchema.index({ bio: 'text', interests: 'text' });
+UserSchema.index({ profileScore: -1 });

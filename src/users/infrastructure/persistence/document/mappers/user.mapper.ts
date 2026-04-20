@@ -33,6 +33,17 @@ export class UserMapper {
       domainEntity.status.id = raw.status._id;
     }
 
+    domainEntity.bio = raw.bio;
+    domainEntity.location = raw.location;
+    domainEntity.dateOfBirth = raw.dateOfBirth;
+    domainEntity.gender = raw.gender;
+    domainEntity.genderPreference = raw.genderPreference ?? [];
+    domainEntity.ageMin = raw.ageMin ?? 18;
+    domainEntity.ageMax = raw.ageMax ?? 99;
+    domainEntity.maxDistanceKm = raw.maxDistanceKm ?? 50;
+    domainEntity.interests = raw.interests ?? [];
+    domainEntity.photoUrls = raw.photoUrls ?? [];
+    domainEntity.profileScore = raw.profileScore ?? 0;
     domainEntity.createdAt = raw.createdAt;
     domainEntity.updatedAt = raw.updatedAt;
     domainEntity.deletedAt = raw.deletedAt;
@@ -76,6 +87,31 @@ export class UserMapper {
     persistenceSchema.photo = photo;
     persistenceSchema.role = role;
     persistenceSchema.status = status;
+    persistenceSchema.bio = domainEntity.bio;
+    persistenceSchema.location = domainEntity.location;
+    persistenceSchema.dateOfBirth = domainEntity.dateOfBirth;
+    persistenceSchema.gender = domainEntity.gender;
+    if (domainEntity.genderPreference !== undefined) {
+      persistenceSchema.genderPreference = domainEntity.genderPreference;
+    }
+    if (domainEntity.ageMin !== undefined) {
+      persistenceSchema.ageMin = domainEntity.ageMin;
+    }
+    if (domainEntity.ageMax !== undefined) {
+      persistenceSchema.ageMax = domainEntity.ageMax;
+    }
+    if (domainEntity.maxDistanceKm !== undefined) {
+      persistenceSchema.maxDistanceKm = domainEntity.maxDistanceKm;
+    }
+    if (domainEntity.interests !== undefined) {
+      persistenceSchema.interests = domainEntity.interests;
+    }
+    if (domainEntity.photoUrls !== undefined) {
+      persistenceSchema.photoUrls = domainEntity.photoUrls;
+    }
+    if (domainEntity.profileScore !== undefined) {
+      persistenceSchema.profileScore = domainEntity.profileScore;
+    }
     persistenceSchema.createdAt = domainEntity.createdAt;
     persistenceSchema.updatedAt = domainEntity.updatedAt;
     persistenceSchema.deletedAt = domainEntity.deletedAt;
