@@ -47,6 +47,8 @@ const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
         return new DataSource(options).initialize();
       },
     });
+
+const isDocument = (databaseConfig() as DatabaseConfig).isDocumentDatabase;
 // </database-block>
 
 @Module({
@@ -101,11 +103,15 @@ const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
     MailerModule,
     HomeModule,
     RedisCacheModule,
-    InteractionsModule,
-    MatchesModule,
-    MessagesModule,
-    DiscoveryModule,
-    AnalyticsModule,
+    ...(isDocument
+      ? [
+          InteractionsModule,
+          MatchesModule,
+          MessagesModule,
+          DiscoveryModule,
+          AnalyticsModule,
+        ]
+      : []),
   ],
 })
 export class AppModule {}
