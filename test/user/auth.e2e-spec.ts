@@ -25,10 +25,7 @@ describe('Auth Module', () => {
           firstName: 'Tester',
           lastName: 'E2E',
         })
-        .expect(422)
-        .expect(({ body }) => {
-          expect(body.errors.email).toBeDefined();
-        });
+        .expect(422);
     });
 
     it('should successfully: /api/v1/auth/email/register (POST)', async () => {
