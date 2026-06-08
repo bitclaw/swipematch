@@ -16,32 +16,32 @@ The user provides a natural language description of what they want to build (e.g
 ### 1. Ask for database type
 
 Before generating anything, ask the user which database type to use:
-- `relational` — PostgreSQL with TypeORM
-- `document` — MongoDB
-- `all-db` — Both databases
+- `relational` - PostgreSQL with TypeORM
+- `document` - MongoDB
+- `all-db` - Both databases
 
 ### 2. Design the entity schema
 
 Analyze the user's description and design entities with their properties. Follow these rules strictly:
 
 #### Entities
-- **Never generate "User" or "File" entities** — they already exist. You can reference them in relationships.
+- **Never generate "User" or "File" entities** - they already exist. You can reference them in relationships.
 - Entity names must be PascalCase and singular (e.g., `Post`, `Category`, `BlogComment`).
 
 #### Properties
-- **Never add "id", "createdAt", or "updatedAt"** — these are predefined for all entities.
+- **Never add "id", "createdAt", or "updatedAt"** - these are predefined for all entities.
 - Property names must be camelCase (e.g., `firstName`, `isActive`).
 
 #### Relationships
-- When creating a property with `referenceType: "oneToMany"`, **do NOT** create the corresponding `manyToOne` in the referenced entity — the generator creates it automatically.
+- When creating a property with `referenceType: "oneToMany"`, **do NOT** create the corresponding `manyToOne` in the referenced entity - the generator creates it automatically.
 - **Do NOT create `oneToMany`** if the `propertyInReference` could have many items. Instead, create a `manyToOne` on the child entity only.
 - For **File** relations, use only `oneToOne` or `manyToMany`.
 - `propertyInReference` is only required when `referenceType` is `oneToMany`.
 
 #### Property kinds
-- `primitive` — basic types: `string`, `number`, `boolean`, `Date`
-- `reference` — relationship to another entity
-- `duplication` — data duplication from another entity
+- `primitive` - basic types: `string`, `number`, `boolean`, `Date`
+- `reference` - relationship to another entity
+- `duplication` - data duplication from another entity
 
 ### 3. Present the schema to the user
 
@@ -49,7 +49,7 @@ Before running commands, show the designed schema as a table or structured list 
 
 ### 4. Show all commands for verification
 
-Once the schema is approved, list **all** commands that will be executed — first the resource generation commands, then the property commands. Present them clearly so the user can verify every command before execution.
+Once the schema is approved, list **all** commands that will be executed - first the resource generation commands, then the property commands. Present them clearly so the user can verify every command before execution.
 
 **Always ask the user for explicit confirmation before running any commands.**
 
@@ -84,9 +84,9 @@ npm run add:property:to-{db} -- --name {EntityName} --property {propertyName} --
 - `--type` (required): For primitive: `string` | `number` | `boolean` | `Date`. For reference/duplication: the referenced entity name (e.g., `User`, `File`, `Category`)
 - `--referenceType`: Only for reference/duplication kind. Values: `oneToOne` | `oneToMany` | `manyToOne` | `manyToMany`
 - `--propertyInReference`: Only when `referenceType` is `oneToMany`. The property name on the referenced entity.
-- `--isAddToDto`: `true` | `false` — whether the property can be set via HTTP request
+- `--isAddToDto`: `true` | `false` - whether the property can be set via HTTP request
 - `--isOptional`: `true` | `false`
-- `--isNullable`: `true` | `false` — only meaningful when `isOptional` is `true`
+- `--isNullable`: `true` | `false` - only meaningful when `isOptional` is `true`
 
 **Omit arguments that don't apply** (e.g., omit `--referenceType` for primitive properties, omit `--propertyInReference` unless `referenceType` is `oneToMany`).
 

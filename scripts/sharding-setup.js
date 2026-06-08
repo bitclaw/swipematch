@@ -1,5 +1,5 @@
 // ============================================================
-// SwipeMatch — Sharding Strategy
+// SwipeMatch - Sharding Strategy
 // ============================================================
 // This script is for reference/discussion. Sharding requires a
 // sharded cluster (mongos + config servers + shard replica sets),
@@ -26,14 +26,14 @@ sh.enableSharding('api');
 //   - Acceptable because $geoNear already limits by maxDistance
 //
 // Alternatives considered:
-//   - { _id: "hashed" } — simpler but doesn't align with query patterns
-//   - { country: 1, _id: "hashed" } — compound key for geographic locality,
+//   - { _id: "hashed" } - simpler but doesn't align with query patterns
+//   - { country: 1, _id: "hashed" } - compound key for geographic locality,
 //     but low cardinality on country alone can cause hot shards
 //
 // Anti-patterns avoided:
-//   - { gender: 1 } — cardinality of 2-4, massive hot shards
-//   - { createdAt: 1 } — monotonically increasing, all writes hit one shard
-//   - { status: 1 } — low cardinality (active/inactive)
+//   - { gender: 1 } - cardinality of 2-4, massive hot shards
+//   - { createdAt: 1 } - monotonically increasing, all writes hit one shard
+//   - { status: 1 } - low cardinality (active/inactive)
 
 sh.shardCollection('api.users', { location: 'hashed' });
 
@@ -53,7 +53,7 @@ sh.shardCollection('api.users', { location: 'hashed' });
 //   - Acceptable because likes-received is a less frequent read path
 //
 // Alternative considered:
-//   - { fromUser: 1, toUser: 1 } — compound key gives targeted lookups
+//   - { fromUser: 1, toUser: 1 } - compound key gives targeted lookups
 //     for both directions, but range queries on fromUser become broadcast
 
 sh.shardCollection('api.interactions', { fromUser: 'hashed' });
@@ -124,8 +124,8 @@ sh.enableBalancing('api.interactions');
 // VERIFICATION
 // ============================================================
 // After setup, verify with:
-//   sh.status()                    — cluster overview
-//   db.users.getShardDistribution() — chunk distribution per collection
+//   sh.status()                    - cluster overview
+//   db.users.getShardDistribution() - chunk distribution per collection
 //   db.interactions.getShardDistribution()
 
 print('Sharding configuration applied.');

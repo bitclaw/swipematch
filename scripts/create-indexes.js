@@ -1,4 +1,4 @@
-// SwipeMatch — Index Creation Script
+// SwipeMatch - Index Creation Script
 // Run: mongosh < scripts/create-indexes.js
 // Note: Indexes are also defined inline on Mongoose schemas and created automatically.
 // This script serves as documentation and for manual setup/verification.
@@ -60,7 +60,7 @@ db.matches.createIndex({ matchedAt: -1 });
 // MESSAGES
 // ============================================================
 
-// Chat history pagination — covers both filter (matchId) and sort (createdAt)
+// Chat history pagination - covers both filter (matchId) and sort (createdAt)
 db.messages.createIndex({ matchId: 1, createdAt: 1 });
 
 // User's sent messages

@@ -87,7 +87,7 @@ module/
 
 ### Interactions (Swipe System)
 - Record like, pass, and superlike actions
-- **Mutual like detection** — automatically creates a match when both users like each other
+- **Mutual like detection** - automatically creates a match when both users like each other
 - Duplicate swipe prevention via unique compound index
 - View received likes (who liked me)
 
@@ -99,24 +99,24 @@ module/
 
 ### Messaging
 - Send messages within active matches only
-- `MatchParticipantGuard` — ensures sender belongs to the match
+- `MatchParticipantGuard` - ensures sender belongs to the match
 - Paginated chat history per match
 - Read receipts (mark as read with timestamp)
 - Message types: text, image, gif
 
 ### Analytics Dashboard
-- **Popular profiles** — top users by likes received in a time window
-- **Engagement metrics** — DAU, swipes per user, like rate by day
-- **Match conversion funnel** — swipes → likes → matches → conversations (using `$facet`)
+- **Popular profiles** - top users by likes received in a time window
+- **Engagement metrics** - DAU, swipes per user, like rate by day
+- **Match conversion funnel** - swipes → likes → matches → conversations (using `$facet`)
 - All computed via MongoDB aggregation pipelines (no application-level processing)
 
 ### NestJS Patterns Demonstrated
-- **Guards** — `MatchParticipantGuard` (authorization), `RateLimitGuard` (abuse prevention)
-- **Pipes** — `CoordinatesValidationPipe` (lat/lng validation and transformation)
-- **Filters** — `MongoDBExceptionFilter` (duplicate key → 409, validation → 422)
-- **Interceptors** — `LoggingInterceptor` (structured JSON, CloudWatch-compatible)
-- **DTOs** — `class-validator` decorators (`@IsMongoId`, `@IsEnum`, `@IsNumber`)
-- **Dependency Injection** — cross-module service injection (interactions → matches)
+- **Guards** - `MatchParticipantGuard` (authorization), `RateLimitGuard` (abuse prevention)
+- **Pipes** - `CoordinatesValidationPipe` (lat/lng validation and transformation)
+- **Filters** - `MongoDBExceptionFilter` (duplicate key → 409, validation → 422)
+- **Interceptors** - `LoggingInterceptor` (structured JSON, CloudWatch-compatible)
+- **DTOs** - `class-validator` decorators (`@IsMongoId`, `@IsEnum`, `@IsNumber`)
+- **Dependency Injection** - cross-module service injection (interactions → matches)
 
 ## MongoDB Deep Dive
 
@@ -158,11 +158,11 @@ module/
 - Unique indexes enforce business rules at the database level (no duplicate swipes)
 - TTL indexes handle data lifecycle without application cron jobs
 - Text indexes span multiple fields for unified search
-- Every index is justified by a specific query pattern — no speculative indexes
+- Every index is justified by a specific query pattern - no speculative indexes
 
 ### Aggregation Pipelines
 
-**1. Discovery — Find Nearby Users**
+**1. Discovery - Find Nearby Users**
 ```
 $geoNear (2dsphere) → $addFields (calculate age) → $match (age filter)
   → $lookup (exclude swiped) → $project → $sort (distance) → $limit
@@ -202,8 +202,8 @@ The Docker Compose setup runs a **3-node MongoDB replica set**:
 | mongo3 | 27019 | Secondary |
 
 **Configuration in application code:**
-- `readPreference: 'secondaryPreferred'` — offloads reads from primary for a read-heavy dating app
-- `writeConcern: { w: 'majority' }` — ensures data durability across nodes before acknowledging writes
+- `readPreference: 'secondaryPreferred'` - offloads reads from primary for a read-heavy dating app
+- `writeConcern: { w: 'majority' }` - ensures data durability across nodes before acknowledging writes
 - Automatic failover: if primary goes down, secondaries elect a new primary (~12 seconds)
 
 ### Sharding Strategy
@@ -214,7 +214,7 @@ Sharding configuration scripts with rationale for each collection:
 |-----------|----------|-----|
 | **users** | `{ location: "hashed" }` | Aligns with geo query patterns; hashed for even distribution |
 | **interactions** | `{ fromUser: "hashed" }` | "My swipes" queries target single shard; high cardinality |
-| **messages** | `{ matchId: "hashed" }` | Conversation data locality — all messages for a chat on same shard |
+| **messages** | `{ matchId: "hashed" }` | Conversation data locality - all messages for a chat on same shard |
 | **matches** | `{ _id: "hashed" }` | Small collection; even write distribution |
 
 **Anti-patterns avoided:**
@@ -393,12 +393,12 @@ make dev                # Start NestJS in watch mode
 This project was built to demonstrate practical knowledge of the following topics in a real-world context:
 
 ### MongoDB
-- **Schema design** — embedding vs referencing, document modeling for different access patterns
-- **Indexes** — single field, compound, 2dsphere, text, TTL, unique; index selection trade-offs
-- **Aggregation** — `$geoNear`, `$lookup`, `$group`, `$facet`, `$addFields`, pipeline optimization
-- **Replication** — replica sets, read preferences, write concerns, automatic failover
-- **Sharding** — shard key selection, hashed vs range, cardinality, query isolation
-- **When to use / not use** — MongoDB vs PostgreSQL trade-offs, hybrid architectures
+- **Schema design** - embedding vs referencing, document modeling for different access patterns
+- **Indexes** - single field, compound, 2dsphere, text, TTL, unique; index selection trade-offs
+- **Aggregation** - `$geoNear`, `$lookup`, `$group`, `$facet`, `$addFields`, pipeline optimization
+- **Replication** - replica sets, read preferences, write concerns, automatic failover
+- **Sharding** - shard key selection, hashed vs range, cardinality, query isolation
+- **When to use / not use** - MongoDB vs PostgreSQL trade-offs, hybrid architectures
 
 ### NestJS / Node.js
 - Modular architecture with dependency injection
