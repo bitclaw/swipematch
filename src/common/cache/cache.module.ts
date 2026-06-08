@@ -11,19 +11,26 @@ import { AllConfigType } from '../../config/config.type';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService<AllConfigType>) => {
         const redisHost = configService.get('cache.redisHost', { infer: true });
-        const ttl = (configService.get('cache.ttl', { infer: true }) ?? 300) * 1000;
+        const ttl =
+          (configService.get('cache.ttl', { infer: true }) ?? 300) * 1000;
 
         if (redisHost) {
           try {
             const { redisStore } = await import('cache-manager-redis-yet');
             return {
               store: await redisStore({
-                socket: { host: redisHost, port: configService.get('cache.redisPort', { infer: true }) },
+                socket: {
+                  host: redisHost,
+                  port: configService.get('cache.redisPort', { infer: true }),
+                },
               }),
               ttl,
             };
           } catch {
-            Logger.warn('Redis unavailable, falling back to in-memory cache', 'RedisCacheModule');
+            Logger.warn(
+              'Redis unavailable, falling back to in-memory cache',
+              'RedisCacheModule',
+            );
           }
         }
 
